@@ -9,7 +9,9 @@ import {
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import dotenv from 'dotenv/config';
 import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 
 import logo from './logo.svg';
 import './App.css';
@@ -20,7 +22,7 @@ import rootReducer from './rootReducer';
 import MoviesList from './MoviesList';
 import MovieDetail from './MovieDetail';
 
-const middleware = [logger];
+const middleware = [logger, thunk];
 const store = createStore(rootReducer, {}, composeWithDevTools(applyMiddleware(...middleware)));
 
 const App = () => (

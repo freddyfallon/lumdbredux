@@ -2,15 +2,15 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Movie from './Movie';
+import movieApi from './secrets.js';
 
 class MoviesList extends PureComponent {
   state = {
     movies: [],
   }
-
   async componentDidMount() {
     try {
-      const res = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=65e043c24785898be00b4abc12fcdaae&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1');
+      const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${movieApi.apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`);
       const movies = await res.json();
       this.setState({
         movies: movies.results,
