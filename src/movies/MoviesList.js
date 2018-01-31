@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Movie from './Movie';
-import movieApi from './secrets.js';
+import movieApi from '../secrets';
 
 class MoviesList extends PureComponent {
   state = {
