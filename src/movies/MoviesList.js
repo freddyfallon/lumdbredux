@@ -9,9 +9,11 @@ import { getMovies } from '../movies/actions';
 
 class MoviesList extends PureComponent {
   componentDidMount() {
-    this.props.getMovies();
+    if (!this.props.moviesLoaded) {
+      this.props.getMovies();
+    }
   }
-   
+
   render() {
     const { movies } = this.props;
     return (
@@ -24,6 +26,7 @@ class MoviesList extends PureComponent {
 
 const mapStateToProps = state => ({
   movies: state.movies.movies,
+  moviesLoaded: state.movies.moviesLoaded,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -33,6 +36,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 MoviesList.propTypes = {
   getMovies: PropTypes.func.isRequired,
   movies: PropTypes.arrayOf(PropTypes.shape({})),
+  moviesLoaded: PropTypes.bool.isRequired,
 };
 
 MoviesList.defaultProps = {
