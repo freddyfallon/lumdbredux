@@ -4,9 +4,8 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
 import { toggleMessage } from './actions';
-import { getMovies } from '../movies/actions';
 
-const Toggle = ({ messageVisibility, toggleMessage, getMovies }) => (
+const Toggle = ({ messageVisibility, toggleMessage }) => (
   <div>
     {
       messageVisibility &&
@@ -14,9 +13,6 @@ const Toggle = ({ messageVisibility, toggleMessage, getMovies }) => (
     }
     <button onClick={toggleMessage}>
         Toggle Me
-    </button>
-    <button onClick={getMovies}>
-        Load movies
     </button>
   </div>
 );
@@ -28,13 +24,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   toggleMessage,
-  getMovies,
 }, dispatch);
 
 Toggle.propTypes = {
   toggleMessage: PropTypes.func.isRequired,
   messageVisibility: PropTypes.bool.isRequired,
-  getMovies: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Toggle);
