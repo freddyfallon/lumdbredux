@@ -1,32 +1,28 @@
 /* eslint react/no-did-mount-set-state: 0 */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Overdrive from 'react-overdrive';
 import { Poster } from './Movie';
+import {
+  getMovie,
+} from '../movies/actions';
 
 const POSTER_PATH = 'http://image.tmdb.org/t/p/w154';
 const BACKDROP_PATH = 'http://image.tmdb.org/t/p/w1280';
 
 class MovieDetail extends Component {
-  state = {
-    movie: {},
+  componentDidMount() {
+    this.props.getMovie(this.props.match.params.id);
   }
 
-  async componentDidMount() {
-    try {
-      const res = await fetch(`https://api.themoviedb.org/3/movie/${this.props.match.params.id}?api_key=65e043c24785898be00b4abc12fcdaae&language=en-US`);
-      const movie = await res.json();
-      this.setState({
-        movie,
-      });
-    } catch (e) {
-      console.log(e);
-    }
   }
 
   render() {
-    const { movie } = this.state;
-    if(!movie.id) return null;
+    const { movie } = this.props;
+    if (!movie.id) return null;
     return (
       <MovieWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}>
         <MovieInfo>
@@ -34,7 +30,7 @@ class MovieDetail extends Component {
             <Poster src={`${POSTER_PATH}${movie.poster_path}`} alt={movie.title} />
           </Overdrive>
           <div>
-            {this.state.movie.title ? (
+            {this.props.movie.title ? (
               <h1>Hello</h1>
             ) : (
               <h1>Hi</h1>
@@ -49,7 +45,23 @@ class MovieDetail extends Component {
   }
 }
 
-export default MovieDetail;
+const mapStateToProps = state => ({
+  movie: state.movies.movie,
+  movieLoaded: state.movies.movieLoaded,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getMovie,
+}, dispatch);
+MovieDetail.propTypes = {
+  getMovie: PropTypes.func.isRequired,
+  movie: PropTypes.arrayOf(PropTypes.shape({})),
+  match: PropTypes.shape({ params: PropTypes.shape({id: PropTypes.string }) }).isRequired,
+};
+MovieDetail.defaultProps = {
+  movie: [],
+};
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetail);
 
 const MovieWrapper = styled.div`
   position: relative;
