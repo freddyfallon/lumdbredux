@@ -2,6 +2,7 @@ import movieApi from '../secrets';
 
 export const GET_MOVIES = 'GET_MOVIES';
 export const GET_MOVIE = 'GET_MOVIE';
+export const RESET_MOVIE = 'RESET_MOVIE';
 
 
 export const getMovies = () => async (dispatch) => {
@@ -22,3 +23,6 @@ export const getMovie = id => async (dispatch) => {
   });
 };
 
+export const resetMovie = () => ({
+  type: 'RESET_MOVIE',
+});

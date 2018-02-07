@@ -8,7 +8,9 @@ import Overdrive from 'react-overdrive';
 import { Poster } from './Movie';
 import {
   getMovie,
+  resetMovie,
 } from '../movies/actions';
+
 
 const POSTER_PATH = 'http://image.tmdb.org/t/p/w154';
 const BACKDROP_PATH = 'http://image.tmdb.org/t/p/w1280';
@@ -18,6 +20,8 @@ class MovieDetail extends Component {
     this.props.getMovie(this.props.match.params.id);
   }
 
+  componentWillUnmount() {
+    this.props.resetMovie();
   }
 
   render() {
@@ -52,15 +56,20 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getMovie,
+  resetMovie,
 }, dispatch);
+
 MovieDetail.propTypes = {
   getMovie: PropTypes.func.isRequired,
   movie: PropTypes.arrayOf(PropTypes.shape({})),
+  resetMovie: PropTypes.func.isRequired,
   match: PropTypes.shape({ params: PropTypes.shape({id: PropTypes.string }) }).isRequired,
 };
+
 MovieDetail.defaultProps = {
   movie: [],
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(MovieDetail);
 
 const MovieWrapper = styled.div`

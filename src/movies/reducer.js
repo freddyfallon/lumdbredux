@@ -1,6 +1,7 @@
 import {
   GET_MOVIES,
   GET_MOVIE,
+  RESET_MOVIE,
 } from './actions';
 
 const initialState = {
@@ -24,6 +25,12 @@ export default function (state = initialState, action) {
         ...state,
         movie: data,
         movieLoaded: true,
+      };
+    case RESET_MOVIE:
+      return {
+        ...state,
+        movie: {},
+        movieLoaded: false,
       };
     default:
       return state;
